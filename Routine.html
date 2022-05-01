@@ -60,54 +60,43 @@
   const beep = () => {
     snd.play();
   }
-  const exercise = (title, duration) => {
+  const timeBlock = (title, duration) => {
     return {title, duration}
   }
-  const array = []
   REP_DUR = 6
-  REST_DUR = 24
-  BREAK_DUR = 120
   REFRESH = 1000
-  const FOUR = exercise(`4 Finger ${REP_DUR}s`, REP_DUR)
-  const THREE = exercise(`3 Finger ${REP_DUR}s`, REP_DUR)
-  const REST = exercise(`Rest ${REST_DUR}s`, REST_DUR)
-  const BREAK = exercise(`Break ${BREAK_DUR}`, BREAK_DUR)
-  SET_COUNT = 5
-  array.push(exercise("5 seconds...", 5))
-  for (let i = 0; i < SET_COUNT; i++) {
-    array.push(FOUR)
-    if (i + 1 < SET_COUNT) {
-      array.push(REST)
-    } else {
-      array.push(BREAK)
+  const FOUR = timeBlock(`4 Finger ${REP_DUR}s`, REP_DUR)
+  const THREE = timeBlock(`3 Finger ${REP_DUR}s`, REP_DUR)
+  
+  
+  function addSet(value, isFinal = false) {
+    const count = 5
+    for (let i = 0; i < count; i++) {
+      array.push(timeBlock(`Ready!`, 1))
+      array.push(value)
+      if (i + 1 < count) {
+        array.push(timeBlock(`Rest for 24s`, 23))
+      } else {
+        if (!isFinal) {
+          array.push(timeBlock(`2 Minute Break`, 120))
+        } else {
+          const DONE = timeBlock(`DONE!!`, 1)
+          array.push(DONE)
+          array.push(DONE)
+          array.push(DONE)
+          array.push(DONE)
+        }
+      }
+
     }
   }
 
-  for (let i = 0; i < SET_COUNT; i++) {
-    array.push(THREE)
-    if (i + 1 < SET_COUNT) {
-      array.push(REST)
-    } else {
-      array.push(BREAK)
-    }
-  }
-
-  for (let i = 0; i < SET_COUNT; i++) {
-    array.push(FOUR)
-    if (i + 1 < SET_COUNT) {
-      array.push(REST)
-    } else {
-      array.push(BREAK)
-    }
-  }
-
-  // FINAL SET!!
-  for (let i = 0; i < SET_COUNT; i++) {
-    array.push(THREE)
-    if (i + 1 < SET_COUNT) {
-      array.push(REST)
-    }
-  }
+  const array = []
+  array.push(timeBlock("5 seconds...", 5))
+  addSet(FOUR);
+  addSet(THREE);
+  addSet(FOUR);
+  addSet(THREE, true);
 
   now = new Date();
   let start = 0, end = 0, index = undefined, id
@@ -138,7 +127,7 @@
     document.getElementById("timer").innerHTML = `<div>${Math.abs(end - secs)}<span>Seconds</span></div>`;
   };
   document.getElementById("title").innerHTML =
-    '<div>Start workout<span></span></div>'
+    '<div>Start<span></span></div>'
   document.getElementById("title").onclick = () => {
     id = setInterval('updateTimer()', REFRESH);
   }
