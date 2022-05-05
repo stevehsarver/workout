@@ -57,8 +57,8 @@
   }
   const REP_DURATION = 6
   const NUM_OF_REPS = 5
-  const FOUR_FINGER_DRAG = timeBlock(`Four Fingers`, REP_DURATION, true)
-  const THREE_FINGER_DRAG = timeBlock(`Three Fingers`, REP_DURATION, true)
+  const FOUR_FINGER_DRAG = timeBlock(`&#128548; Four Fingers`, REP_DURATION, true)
+  const THREE_FINGER_DRAG = timeBlock(`&#128548; Three Fingers`, REP_DURATION, true)
   const TITLE = "title"
   const TIMER = "timer"
   
@@ -71,8 +71,8 @@
     document.getElementById(TITLE).onclick = () => {
     }
     sets = defineSets()
-    setContent(TIMER, `<div>Loading ${sets.length} steps...</div>`)
-    setContent(TITLE, `<div> </div>`)
+    setContent(TIMER, ``)
+    setContent(TITLE, ``)
     intervalId = setInterval('updateTimer()', 1000);
   }
 
@@ -92,7 +92,7 @@
         index = 0
       } else if (index === sets.length) {
         clearInterval(index)
-        setContent(TITLE, '<div>Done</div>')
+        setContent(TITLE, '<div>&#58378; Done</div>')
         setContent(TIMER, '')
         clearTimeout(intervalId)
         return
@@ -119,9 +119,9 @@
       for (let i = 0; i < NUM_OF_REPS; i++) {
         array.push({...value})
         if (i + 1 < NUM_OF_REPS) {
-          array.push(timeBlock(`Rest`, 24))
+          array.push(timeBlock(`&#128512; Rest`, 24))
         } else {
-          array.push(timeBlock(`Break: `, 2 * 60))
+          array.push(timeBlock(`&#128564; Break: `, 2 * 60))
         }
       }
       return array
@@ -142,16 +142,14 @@
     }
     sets = defineSets()
     console.dir(sets)
-    setContent(TIMER, `<div>Loading ${sets.length} steps...</div>`)
-    setContent(TITLE, `<div> </div>`)
     intervalId = setInterval('updateTimer()', 1000);
   }
 
-  setContent(TITLE, '<div style=\"background-color: red; border: 4px solid white; margin: 15px; color: white;\">Start <span>with sound</span></div>')
+  setContent(TITLE, '')
 
   document.getElementById(TITLE).onclick = startWorkout
 
-  setContent(TIMER, '<div style=\"background-color: red; border: 4px solid white; margin: 15px; color: white;\">Start <span>no sound</span></div>')
+  setContent(TIMER, '<div>Start</div>')
   document.getElementById(TIMER).onclick = () => {
     beep = () => {
     }
