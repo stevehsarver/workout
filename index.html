@@ -61,7 +61,7 @@
   const THREE_FINGER_DRAG = timeBlock(`Three Fingers`, REP_DURATION, true)
   const TITLE = "title"
   const TIMER = "timer"
-
+  
   const now = new Date();
   let start = 0, end = 0, index = undefined, sets = undefined, intervalId
 
@@ -107,31 +107,32 @@
       end = secs + duration
       console.dir(`title=${title} duration=${duration} index=${index} secs=${secs} end=${end}`)
     }
-    setContent(TITLE, `<div>${sets[index].title}</div>`)
+    const {title} = sets[index]
+    setContent(TITLE, `<div>${title}</div>`)
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(title))
     setContent(TIMER, `<div>${Math.abs(end - secs)}</div>`)
   };
   const defineSets = () => {
+    const array = []
     function addSet(value) {
-      const array = []
+      array[array.length-1].title += value.title
       for (let i = 0; i < NUM_OF_REPS; i++) {
-        // split a time block to give an extra "beep"
         array.push({...value})
         if (i + 1 < NUM_OF_REPS) {
           array.push(timeBlock(`Rest`, 24))
         } else {
-          array.push(timeBlock(`2 Minute Break`, 2 * 60))
+          array.push(timeBlock(`Break: `, 2 * 60))
         }
       }
       return array
     }
 
-    const array = []
-    array.push(timeBlock("Get ready", 5))
-    array.push(addSet(FOUR_FINGER_DRAG))
-    array.push(addSet(THREE_FINGER_DRAG))
-    array.push(addSet(FOUR_FINGER_DRAG))
-    array.push(addSet(THREE_FINGER_DRAG))
-    return array.flat()
+    array.push(timeBlock("Get ready: ", 5))
+    addSet(FOUR_FINGER_DRAG)
+    addSet(THREE_FINGER_DRAG)
+    addSet(FOUR_FINGER_DRAG)
+    addSet(THREE_FINGER_DRAG)
+    return array
   };
 
   function startWorkout() {
