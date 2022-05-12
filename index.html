@@ -30,11 +30,23 @@
 
         #timer div {
             display: inline-block;
-            min-width: 90px;
+            min-width: 50px;
             padding: 15px;
-            background: #020b43;
+            background: cornflowerblue;
             border-radius: 10px;
             border: 2px solid #030d52;
+            margin: 15px;
+        }
+
+        .button {
+            font-size: 4em;
+            font-weight: 100;
+            background: aliceblue;
+            color: blue;
+            display: inline;
+            min-width: 90px;
+            padding: 15px;
+            border-radius: 10px;
             margin: 15px;
         }
 
@@ -45,36 +57,62 @@
             font-size: .35em;
             font-weight: 400;
         }
+
+        html, body, section {
+            height: 100%;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Pattern styles */
+        .container {
+            display: flex;
+        }
+
+        .left-half {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .right-half {
+            flex: 1;
+            padding: 1rem;
+        }
     </style>
-    <title>A2 Tendon Recovery Workout</title>
+    <title>Climbing Workout</title>
 </head>
 <body>
-<div id="title"></div>
-<div id="timer"></div>
+<section class="container">
+    <div class="left-half">
+        <article>
+            <div id="title">HEADING</div>
+            <div id="timer">TIMER</div>
+        </article>
+    </div>
+    <div class="right-half">
+        <article>
+            <div id="prev" class="button">Prev</div>
+            <div id="next" class="button">Next</div>
+        </article>
+    </div>
+</section>
 <script type="text/javascript">
-  const timeBlock = (title, duration, action) => {
-    return {title, duration, action}
+  const timeBlock = (heading, duration, action) => {
+    return {heading, duration, action}
   }
   const REP_DURATION = 6
   const NUM_OF_REPS = 5
-  const FOUR_FINGER_DRAG = timeBlock(`&#128548; Four Fingers`, REP_DURATION, true)
-  const THREE_FINGER_DRAG = timeBlock(`&#128548; Three Fingers`, REP_DURATION, true)
-  const TITLE = "title"
+  const FOUR_FINGER_DRAG = timeBlock(`Four Fingers`, REP_DURATION, true)
+  const THREE_FINGER_DRAG = timeBlock(`Three Fingers`, REP_DURATION, true)
+  const HEADING = "title"
   const TIMER = "timer"
-  
-  let startTime = new Date();
-  let paused = false, start = 0, end = 0, index = undefined, sets = undefined, intervalId
 
-  function startWorkout() {
-    document.getElementById(TIMER).onclick = () => {
-    }
-    document.getElementById(TITLE).onclick = () => {
-    }
-    sets = defineSets()
-    setContent(TIMER, ``)
-    setContent(TITLE, ``)
-    intervalId = setInterval('updateTimer()', 1000);
-  }
+  let startTime = new Date();
+  let start = 0, end = 0, index = undefined, sets = undefined, intervalId
 
   const setContent = (elementId, content) => {
     document.getElementById(elementId).innerHTML = content
@@ -84,50 +122,45 @@
     snd.play();
   }
   const updateTimer = () => {
-    if (paused) {
-      setContent(TITLE, '')
-      setContent(TIMER, '<div>&#128721;</div>')
-      startTime =+ 1000 // add a second...
-      return
-    }
     let current = new Date();
     const millis = current - startTime;
     const secs = Math.floor(millis / 1000);
     if (secs >= end) {
-      if (index === undefined) {
+      if (index === undefined || index < 0) {
         index = 0
-      } else if (index === sets.length) {
+      } else if (index >= sets.length) {
         clearInterval(index)
-        setContent(TITLE, '<div>&#58378; Done</div>')
+        setContent(HEADING, '<div>Done</div>')
         setContent(TIMER, '')
         clearTimeout(intervalId)
         return
       } else {
         index++
       }
-      const {title, duration, action} = sets[index]
+      const {heading, duration, action} = sets[index]
       if (action !== undefined) {
         beep()
       }
       start = secs
       end = secs + duration
-      console.dir(`title=${title} duration=${duration} index=${index} secs=${secs} end=${end}`)
+      console.dir(`index=${index} heading=${heading} duration=${duration} index=${index} secs=${secs} end=${end}`)
     }
-    const {title} = sets[index]
-    setContent(TITLE, `<div>${title}</div>`)
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance(title))
+    const {heading} = sets[index]
+    setContent(HEADING, `<div>${heading}</div>`)
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(heading))
     setContent(TIMER, `<div>${Math.abs(end - secs)}</div>`)
   };
   const defineSets = () => {
     const array = []
+
     function addSet(value) {
-      array[array.length-1].title += value.title
+      array[array.length - 1].heading += value.heading
       for (let i = 0; i < NUM_OF_REPS; i++) {
-        array.push({...value})
+        const {heading, duration, action} = {...value};
+
+        array.push({heading: `${heading} ${NUM_OF_REPS - i}/${NUM_OF_REPS}`, duration, action})
         if (i + 1 < NUM_OF_REPS) {
-          array.push(timeBlock(`&#128512; Rest`, 24))
-        } else {
-          array.push(timeBlock(`&#128564; Break: `, 2 * 60))
+          array.push(timeBlock(`Rest`, 24))
         }
       }
       return array
@@ -135,26 +168,40 @@
 
     array.push(timeBlock("Get ready: ", 5))
     addSet(FOUR_FINGER_DRAG)
+    array.push(timeBlock(`Break: `, 2 * 60))
     addSet(THREE_FINGER_DRAG)
+    array.push(timeBlock(`Break: `, 2 * 60))
     addSet(FOUR_FINGER_DRAG)
+    array.push(timeBlock(`Break: `, 2 * 60))
     addSet(THREE_FINGER_DRAG)
+    array.push(timeBlock(`Done`, 0))
     return array
   };
 
   function startWorkout() {
-    document.getElementById(TITLE).onclick = () => {
+    document.getElementById(HEADING).onclick = () => {
     }
-    document.getElementById(TIMER).onclick = () => {
-      paused = !paused
+    document.getElementById("prev").onclick = () => {
+      if (index > 1) {
+        index = index - 2
+        end = 0
+        updateTimer()
+      }
+    }
+    document.getElementById("next").onclick = () => {
+      if (index < sets.length - 1) {
+        end = 0
+        updateTimer()
+      }
     }
     sets = defineSets()
     console.dir(sets)
     intervalId = setInterval('updateTimer()', 1000);
   }
 
-  setContent(TITLE, '')
+  setContent(HEADING, '')
 
-  document.getElementById(TITLE).onclick = startWorkout
+  document.getElementById(HEADING).onclick = startWorkout
 
   setContent(TIMER, '<div>Start</div>')
   document.getElementById(TIMER).onclick = () => {
