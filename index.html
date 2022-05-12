@@ -62,8 +62,8 @@
   const TITLE = "title"
   const TIMER = "timer"
   
-  const now = new Date();
-  let start = 0, end = 0, index = undefined, sets = undefined, intervalId
+  let startTime = new Date();
+  let paused = false, start = 0, end = 0, index = undefined, sets = undefined, intervalId
 
   function startWorkout() {
     document.getElementById(TIMER).onclick = () => {
@@ -84,8 +84,14 @@
     snd.play();
   }
   const updateTimer = () => {
+    if (paused) {
+      setContent(TITLE, '')
+      setContent(TIMER, '<div>&#128721;</div>')
+      startTime =+ 1000 // add a second...
+      return
+    }
     let current = new Date();
-    const millis = current - now;
+    const millis = current - startTime;
     const secs = Math.floor(millis / 1000);
     if (secs >= end) {
       if (index === undefined) {
@@ -136,9 +142,10 @@
   };
 
   function startWorkout() {
-    document.getElementById(TIMER).onclick = () => {
-    }
     document.getElementById(TITLE).onclick = () => {
+    }
+    document.getElementById(TIMER).onclick = () => {
+      paused = !paused
     }
     sets = defineSets()
     console.dir(sets)
