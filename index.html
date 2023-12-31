@@ -2,81 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <style media="screen">
-        body {
-            text-align: center;
-            padding: 2% 4%;
-            background: #90cbf3;
-            font-family: monospace;
-            font-weight: lighter;
-        }
-
-        #title {
-            font-size: 4em;
-            font-weight: 100;
-            color: #020b43;
-            padding: 2%;
-        }
-
-        #timer {
-            font-size: 5em;
-            font-weight: 100;
-            padding: 2%;
-        }
-
-        #timer div {
-            display: inline-block;
-            padding: 15px;
-            border-radius: 1%;
-            margin: 15px;
-        }
-
-        .button {
-            font-size: 4em;
-            font-weight: 100;
-            background: aliceblue;
-            color: blue;
-            display: inline;
-            padding: 2%;
-            border-radius: 1%;
-            margin: 2%;
-        }
-
-        span {
-            color: #ffffff;
-            display: block;
-            margin-top: 15px;
-            font-size: .35em;
-            font-weight: 400;
-        }
-
-        html, body, section {
-            height: 100%;
-        }
-
-        div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Pattern styles */
-        .container {
-            display: flex;
-        }
-
-        .left-half {
-            flex: 1;
-            padding: 1rem;
-        }
-
-        .right-half {
-            flex: 1;
-            padding: 1rem;
-        }
-    </style>
-    <title>Climbing Workout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Timed Training Tasks</title>
 </head>
 <body id="screenId">
+<h1>Timed Training Tasks</h1>
 <section class="container">
     <div class="left-half">
         <article>
@@ -91,158 +22,25 @@
         </article>
     </div>
 </section>
-<script type="text/javascript">
-  const beep = () => {
-    const snd = new Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
-    snd.play();
-  }
-  const defineBlock = ({heading, duration, action, speech}) => {
-    return {heading, duration, action, speech}
-  }
-  const setBackgroundColor = (color) => {
-    document.getElementById('screenId').style.backgroundColor = color
-  }
-  const hanging = () => {
-    setBackgroundColor('#f23c06')
-  }
-  const resting = () => {
-    setBackgroundColor('#90cbf3')
-  }
-  const pausing = () => {
-    setBackgroundColor('#9cb806')
-  }
-  const ready = () => {
-    setBackgroundColor('#fef764')
-  }
-  const READY_TIME = 4
-  const REST_TIME = 24
-  const BREAK_TIME = (2 * 60) - READY_TIME
-  const REP_DURATION = 6
-  const NUM_OF_REPS = 5
-  const FOUR_FINGER_DRAG = defineBlock({
-    heading: `Four Fingers`, duration: REP_DURATION, speech: `Four Fingers`
-  })
-  const THREE_FINGER_DRAG = defineBlock({
-    heading: `Three Fingers`,
-    duration: REP_DURATION,
 
-    speech: `Three Fingers`
-  })
-  const HEADING = "title"
-  const TIMER = "timer"
-
-  let startTime = new Date();
-  let start = 0, end = 0, index = undefined, sets = undefined, intervalId
-
-  const setContent = (elementId, content) => {
-    document.getElementById(elementId).innerHTML = content
-  };
-
-  const updateTimer = () => {
-    let current = new Date();
-    const millis = current - startTime;
-    const secs = Math.floor(millis / 1000);
-    if (secs >= end) {
-      if (index === undefined || index < 0) {
-        index = 0
-      } else if (index >= sets.length) {
-        clearInterval(index)
-        setContent(HEADING, '<div>Done</div>')
-        setContent(TIMER, '')
-        clearTimeout(intervalId)
-        return
-      } else {
-        index++
-      }
-      const {heading, duration, action} = sets[index]
-      if (action !== undefined) {
-        action()
-      }
-      start = secs
-      end = secs + duration
-      console.dir(`index=${index} heading=${heading} duration=${duration} index=${index} secs=${secs} end=${end}`)
-      const {speech} = sets[index]
-      setContent(HEADING, `<div>${heading}</div>`)
-      if (speech !== undefined) {
-        window.speechSynthesis.speak(new SpeechSynthesisUtterance(speech))
-        console.dir(`Speech=${speech}`)
-      }
-    }
-    const {heading} = sets[index]
-    setContent(HEADING, `<div>${heading}</div>`)
-    setContent(TIMER, `<div>${Math.abs(end - secs)}</div>`)
-  };
-  const defineSets = () => {
-    const array = []
-
-    function addSet(value) {
-      array.push(defineBlock({heading: "Get ready: ", duration: READY_TIME, speech: "Get Ready", action: ready}))
-
-      array[array.length - 1].heading += value.heading
-      for (let i = 0; i < NUM_OF_REPS; i++) {
-
-        const definition = {...value};
-        definition.heading = `${value.heading} ${NUM_OF_REPS - i}`
-        definition.action = hanging
-        array.push(definition)
-        if (i + 1 < NUM_OF_REPS) {
-          array.push(defineBlock({
-            heading: `Rest`, duration: REST_TIME - READY_TIME, action: pausing
-          }))
-          array.push(defineBlock({heading: "Get ready: ", duration: READY_TIME, speech: "Get Ready", action: ready}))
-        }
-      }
-      array.push(defineBlock({
-        heading: `Break: `, duration: BREAK_TIME, action: resting
-      }))
-      return array
-    }
-
-    addSet(FOUR_FINGER_DRAG)
-    addSet(THREE_FINGER_DRAG)
-    addSet(FOUR_FINGER_DRAG)
-    addSet(THREE_FINGER_DRAG)
-    array.length = array.length - 1
-    array.push(defineBlock({
-      heading: `Done`, duration: 0
-    }))
-    return array
-  };
-
-  function startWorkout() {
-    document.getElementById(HEADING).onclick = () => {
-    }
-    document.getElementById("prev").onclick = () => {
-      if (index > 1) {
-        index = index - 2
-        end = 0
-        updateTimer()
-      }
-    }
-    document.getElementById("next").onclick = () => {
-      if (index < sets.length - 1) {
-        end = 0
-        updateTimer()
-      }
-    }
-    sets = defineSets()
-    console.dir(sets)
-    intervalId = setInterval('updateTimer()', 1000);
-  }
-
-  setContent(HEADING, 'Get weights and bands for the breaks')
-
-  document.getElementById(HEADING).onclick = startWorkout
-
-  setContent(TIMER, '<div>Start</div>')
-  document.getElementById(TIMER).onclick = () => {
-    startWorkout()
-  }
-  const startButton = document.getElementById('timer').firstChild;
-  startButton.style.backgroundColor = 'cornflowerblue'
-  startButton.style.border = '2px solid #030d52';
-  startButton.style.color = 'white';
-
-</script>
+<div id="configuration">
+    <label for="repetitions">Repetitions:</label>
+    <input type="number" id="repetitions" value="5">
+    <br/>
+    <label for="duration">Duration (seconds):</label>
+    <input type="number" id="duration" value="6">
+    <br/>
+    <label for="repRest">Rep Rest (seconds):</label>
+    <input type="number" id="repRest" value="24">
+    <br/>
+    <label for="sets">Sets:</label>
+    <input type="number" id="sets" value="4">
+    <br/>
+    <label for="setRest">Set Rest (seconds):</label>
+    <input type="number" id="setRest" value="120">
+</div>
+<br/>
+<div id="countdown">00:00</div>
+<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
